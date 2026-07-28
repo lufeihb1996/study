@@ -343,11 +343,11 @@ ${fearVal}
         });
     }
 
-    // Close menu when clicking outside or on a link
+    // Close menu when clicking outside
     document.addEventListener('click', (e) => {
         if (document.body.classList.contains('sidebar-open')) {
             const sidebar = document.querySelector('.nav-sidebar');
-            if (sidebar && !sidebar.contains(e.target) && e.target !== menuToggle) {
+            if (sidebar && !sidebar.contains(e.target) && menuToggle && !menuToggle.contains(e.target)) {
                 document.body.classList.remove('sidebar-open');
             }
         }
