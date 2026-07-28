@@ -829,9 +829,31 @@ hr {
     transform: translateY(0);
 }
 
-.btn-primary i {
-    width: 18px;
-    height: 18px;
+/* ==========================================================================
+   Language View Modes (EN / ZH / Bilingual)
+   ========================================================================== */
+body.view-mode-en #translation-zh,
+body.view-mode-en #bilingual-split {
+    display: none !important;
+}
+body.view-mode-en #original-en {
+    display: block !important;
+}
+
+body.view-mode-zh #original-en,
+body.view-mode-zh #bilingual-split {
+    display: none !important;
+}
+body.view-mode-zh #translation-zh {
+    display: block !important;
+}
+
+body.view-mode-bilingual #original-en,
+body.view-mode-bilingual #translation-zh {
+    display: none !important;
+}
+body.view-mode-bilingual #bilingual-split {
+    display: block !important;
 }
 
 /* ==========================================================================

@@ -236,20 +236,30 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const targetId = link.getAttribute('href');
-            const targetEl = document.querySelector(targetId);
-            if (targetEl) {
-                // Larger offset on mobile due to stacked header elements
-                const headerOffset = window.innerWidth <= 900 ? 140 : 90;
-                const targetOffset = targetEl.offsetTop - headerOffset;
-                
-                window.scrollTo({
-                    top: targetOffset,
-                    behavior: 'smooth'
-                });
-                
-                // Set URL hash silently
-                history.pushState(null, null, targetId);
+            
+            // Automatically switch language view mode when clicking original-en, translation-zh, or bilingual-split
+            if (targetId === '#original-en') {
+                applyLangMode('en');
+            } else if (targetId === '#translation-zh') {
+                applyLangMode('zh');
+            } else if (targetId === '#bilingual-split') {
+                applyLangMode('bilingual');
             }
+
+            setTimeout(() => {
+                const targetEl = document.querySelector(targetId);
+                if (targetEl) {
+                    const headerOffset = window.innerWidth <= 900 ? 80 : 90;
+                    const targetOffset = targetEl.offsetTop - headerOffset;
+                    
+                    window.scrollTo({
+                        top: Math.max(0, targetOffset),
+                        behavior: 'smooth'
+                    });
+                    
+                    history.pushState(null, null, targetId);
+                }
+            }, 60);
         });
     });
 
