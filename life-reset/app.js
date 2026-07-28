@@ -118,36 +118,44 @@ document.addEventListener('DOMContentLoaded', () => {
         'habit3': { el: habit3, status: status3 }
     };
 
-    // Load saved data
+    // Load saved data safely
     Object.keys(inputsMap).forEach(key => {
-        const savedVal = localStorage.getItem(`life-reset-${key}`);
-        if (savedVal !== null) {
-            inputsMap[key].el.value = savedVal;
+        if (inputsMap[key].el) {
+            const savedVal = localStorage.getItem(`life-reset-${key}`);
+            if (savedVal !== null) {
+                inputsMap[key].el.value = savedVal;
+            }
         }
     });
 
-    // Update Live Summary Panel
+    // Update Live Summary Panel safely
     const updateSummary = () => {
-        summaryAnti.innerText = inputAntiVision.value.trim() || '未填写 (请在第2章写入)';
+        if (summaryAnti && inputAntiVision) {
+            summaryAnti.innerText = inputAntiVision.value.trim() || '未填写';
+        }
         
-        const visionText = inputVision.value.trim();
-        const fearText = inputFear.value.trim();
-        
-        let visionSummary = '';
-        if (visionText) visionSummary += `愿景：${visionText}；`;
-        if (fearText) visionSummary += `恐惧：${fearText}`;
-        summaryVision.innerText = visionSummary.trim() || '未填写 (请在第3章写入)';
+        if (summaryVision && inputVision && inputFear) {
+            const visionText = inputVision.value.trim();
+            const fearText = inputFear.value.trim();
+            
+            let visionSummary = '';
+            if (visionText) visionSummary += `愿景：${visionText}；`;
+            if (fearText) visionSummary += `恐惧：${fearText}`;
+            summaryVision.innerText = visionSummary.trim() || '未填写';
+        }
 
-        const h1 = habit1.value.trim();
-        const h2 = habit2.value.trim();
-        const h3 = habit3.value.trim();
-        
-        const habitsList = [];
-        if (h1) habitsList.push(`1. ${h1}`);
-        if (h2) habitsList.push(`2. ${h2}`);
-        if (h3) habitsList.push(`3. ${h3}`);
+        if (summaryHabits && habit1 && habit2 && habit3) {
+            const h1 = habit1.value.trim();
+            const h2 = habit2.value.trim();
+            const h3 = habit3.value.trim();
+            
+            const habitsList = [];
+            if (h1) habitsList.push(`1. ${h1}`);
+            if (h2) habitsList.push(`2. ${h2}`);
+            if (h3) habitsList.push(`3. ${h3}`);
 
-        summaryHabits.innerText = habitsList.length > 0 ? habitsList.join(' | ') : '未填写 (请在第5章写入)';
+            summaryHabits.innerText = habitsList.length > 0 ? habitsList.join(' | ') : '未填写';
+        }
     };
 
     // Initial update
@@ -158,26 +166,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const triggerSave = (key) => {
         clearTimeout(saveTimeouts[key]);
         const config = inputsMap[key];
+        if (!config || !config.el) return;
         
         // Show saving feedback
         if (config.status) {
             config.status.classList.add('show');
             const dot = config.status.querySelector('.dot');
             const label = config.status.querySelector('span:not(.dot)');
-            dot.style.backgroundColor = '#f59e0b'; // orange for loading
-            label.innerText = '正在保存...';
+            if (dot) dot.style.backgroundColor = '#f59e0b';
+            if (label) label.innerText = '正在保存...';
         }
 
         saveTimeouts[key] = setTimeout(() => {
-            localStorage.setItem(`life-reset-${key}`, config.el.value);
-            updateSummary();
+            if (config.el) {
+                localStorage.setItem(`life-reset-${key}`, config.el.value);
+                updateSummary();
+            }
             
             // Show saved success feedback
             if (config.status) {
                 const dot = config.status.querySelector('.dot');
                 const label = config.status.querySelector('span:not(.dot)');
-                dot.style.backgroundColor = '#10b981'; // green for success
-                label.innerText = '已自动保存';
+                if (dot) dot.style.backgroundColor = '#10b981';
+                if (label) label.innerText = '已自动保存';
                 
                 setTimeout(() => {
                     config.status.classList.remove('show');
@@ -188,7 +199,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Bind input listeners
     Object.keys(inputsMap).forEach(key => {
-        inputsMap[key].el.addEventListener('input', () => triggerSave(key));
+        if (inputsMap[key].el) {
+            inputsMap[key].el.addEventListener('input', () => triggerSave(key));
+        }
     });
 
     // ----------------------------------------------------------------------
