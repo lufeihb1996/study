@@ -263,16 +263,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 const targetEl = document.querySelector(targetId);
                 if (targetEl) {
                     const headerOffset = window.innerWidth <= 900 ? 80 : 90;
-                    const targetOffset = targetEl.offsetTop - headerOffset;
+                    const y = targetEl.getBoundingClientRect().top + window.pageYOffset - headerOffset;
                     
                     window.scrollTo({
-                        top: Math.max(0, targetOffset),
+                        top: Math.max(0, y),
                         behavior: 'smooth'
                     });
                     
                     history.pushState(null, null, targetId);
                 }
-            }, 60);
+            }, 100);
         });
     });
 
