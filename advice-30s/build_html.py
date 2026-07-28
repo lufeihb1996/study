@@ -712,16 +712,23 @@ ARTICLES = [
 ]
 
 def render_english(item):
-    return f'<div class="item-block"><h2 class="subsection-title serif-heading">{item["title_en"]}</h2><div class="inner-quote"><p>"{item["quote_en"]}"</p></div>' + "".join([f'<p>{p}</p>' for p in item["content_en"]]) + '</div>'
+    return f'<div class="item-block" id="item-{item["id"]}"><h2 class="subsection-title serif-heading">{item["title_en"]}</h2><div class="inner-quote"><p>"{item["quote_en"]}"</p></div>' + "".join([f'<p>{p}</p>' for p in item["content_en"]]) + '</div>'
 
 def render_chinese(item):
-    return f'<div class="item-block"><h2 class="subsection-title">{item["title_zh"]}</h2><div class="inner-quote"><p>“{item["quote_zh"]}”</p></div>' + "".join([f'<p>{p}</p>' for p in item["content_zh"]]) + '</div>'
+    return f'<div class="item-block" id="item-{item["id"]}"><h2 class="subsection-title">{item["title_zh"]}</h2><div class="inner-quote"><p>“{item["quote_zh"]}”</p></div>' + "".join([f'<p>{p}</p>' for p in item["content_zh"]]) + '</div>'
 
 def render_bilingual(item):
     paras = "".join([f'<div class="bilingual-para"><p class="b-en">{item["content_en"][i] if i < len(item["content_en"]) else ""}</p><p class="b-zh">{p}</p></div>' for i, p in enumerate(item["content_zh"])])
-    return f'<div class="item-block"><div class="bilingual-para"><h2 class="subsection-title serif-heading">{item["title_en"]}</h2><h2 class="subsection-title">{item["title_zh"]}</h2></div><div class="bilingual-para"><div class="inner-quote"><p class="b-en">"{item["quote_en"]}"</p><p class="b-zh">“{item["quote_zh"]}”</p></div></div>{paras}</div>'
+    return f'<div class="item-block" id="item-{item["id"]}"><div class="bilingual-para"><h2 class="subsection-title serif-heading">{item["title_en"]}</h2><h2 class="subsection-title">{item["title_zh"]}</h2></div><div class="bilingual-para"><div class="inner-quote"><p class="b-en">"{item["quote_en"]}"</p><p class="b-zh">“{item["quote_zh"]}”</p></div></div>{paras}</div>'
 
 def main():
+    toc_items = '<li class="nav-item"><a href="#overview" class="nav-link active"><span class="nav-num">00</span><span class="nav-label">引言与概述 (Overview)</span></a></li>\n'
+    for item in ARTICLES:
+        num_str = f"{item['id']:02d}"
+        clean_label = item['title_zh']
+        toc_items += f'<li class="nav-item"><a href="#item-{item["id"]}" class="nav-link"><span class="nav-num">{num_str}</span><span class="nav-label">{clean_label}</span></a></li>\n'
+    toc_items += '<li class="nav-item"><a href="#analysis-workshop" class="nav-link"><span class="nav-num">34</span><span class="nav-label">行动复盘工坊</span></a></li>\n'
+
     html_template = """<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -760,11 +767,7 @@ def main():
                 <nav class="toc-nav">
                     <div class="nav-title"><a href="../index.html" style="color:var(--accent-indigo); text-decoration:none; display:flex; align-items:center; gap:6px;"><i data-lucide="arrow-left" style="width:16px;height:16px;"></i> 返回主目录 Hub</a></div>
                     <ul class="nav-list">
-                        <li class="nav-item"><a href="#overview" class="nav-link active"><span class="nav-num">00</span><span class="nav-label">引言与概述 (Overview)</span></a></li>
-                        <li class="nav-item"><a href="#original-en" class="nav-link"><span class="nav-num">01</span><span class="nav-label">英文原文 (English)</span></a></li>
-                        <li class="nav-item"><a href="#translation-zh" class="nav-link"><span class="nav-num">02</span><span class="nav-label">中文译文 (Translation)</span></a></li>
-                        <li class="nav-item"><a href="#bilingual-split" class="nav-link"><span class="nav-num">03</span><span class="nav-label">双语对照 (Bilingual)</span></a></li>
-                        <li class="nav-item"><a href="#analysis-workshop" class="nav-link"><span class="nav-num">04</span><span class="nav-label">行动复盘工坊</span></a></li>
+{toc_items}
                     </ul>
                 </nav>
             </aside>
@@ -825,11 +828,12 @@ def main():
     zh_html = "\n".join([render_chinese(item) for item in ARTICLES])
     bi_html = "\n".join([render_bilingual(item) for item in ARTICLES])
 
-    full_html = html_template.format(en_html=en_html, zh_html=zh_html, bi_html=bi_html)
+    full_html = html_template.format(toc_items=toc_items, en_html=en_html, zh_html=zh_html, bi_html=bi_html)
     
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(full_html)
-    print("[√] advice-30s index.html compiled successfully.")
+    print("[√] advice-30s index.html compiled successfully with 33 TOC items.")
 
 if __name__ == "__main__":
     main()
+
