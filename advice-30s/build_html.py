@@ -722,12 +722,36 @@ def render_bilingual(item):
     return f'<div class="item-block" id="item-{item["id"]}"><div class="bilingual-para"><h2 class="subsection-title serif-heading">{item["title_en"]}</h2><h2 class="subsection-title">{item["title_zh"]}</h2></div><div class="bilingual-para"><div class="inner-quote"><p class="b-en">"{item["quote_en"]}"</p><p class="b-zh">“{item["quote_zh"]}”</p></div></div>{paras}</div>'
 
 def main():
-    toc_items = '<li class="nav-item"><a href="#overview" class="nav-link active"><span class="nav-num">00</span><span class="nav-label">引言与概述 (Overview)</span></a></li>\n'
-    for item in ARTICLES:
-        num_str = f"{item['id']:02d}"
-        clean_label = item['title_zh']
-        toc_items += f'<li class="nav-item"><a href="#item-{item["id"]}" class="nav-link"><span class="nav-num">{num_str}</span><span class="nav-label">{clean_label}</span></a></li>\n'
-    toc_items += '<li class="nav-item"><a href="#analysis-workshop" class="nav-link"><span class="nav-num">34</span><span class="nav-label">行动复盘工坊</span></a></li>\n'
+    toc_items = """                        <li class="nav-item">
+                            <a href="#overview" class="nav-link active">
+                                <span class="nav-num">00</span>
+                                <span class="nav-label">引言与概述 (Overview)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#original-en" class="nav-link">
+                                <span class="nav-num">01</span>
+                                <span class="nav-label">英文原文 (English)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#translation-zh" class="nav-link">
+                                <span class="nav-num">02</span>
+                                <span class="nav-label">中文译文 (Translation)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#bilingual-split" class="nav-link">
+                                <span class="nav-num">03</span>
+                                <span class="nav-label">双语对照 (Bilingual)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#analysis-workshop" class="nav-link">
+                                <span class="nav-num">04</span>
+                                <span class="nav-label">分析与实践工坊</span>
+                            </a>
+                        </li>"""
 
     html_template = """<!DOCTYPE html>
 <html lang="zh-CN">
