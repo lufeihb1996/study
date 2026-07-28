@@ -20,7 +20,10 @@
     <div class="app-layout">
         <!-- Floating Header -->
         <header class="main-header">
-            <div class="logo-area">
+            <div class="logo-area" style="display: flex; align-items: center; gap: 8px;">
+                <button class="menu-toggle-btn" id="menuToggle" aria-label="展开目录" style="background: none; border: none; color: var(--text-primary); cursor: pointer; width: 36px; height: 36px; border-radius: 8px; display: none; align-items: center; justify-content: center;">
+                    <i data-lucide="menu"></i>
+                </button>
                 <span class="logo-icon"><i data-lucide="compass"></i></span>
                 <span class="logo-text">Life Reset Workshop</span>
             </div>
@@ -31,9 +34,6 @@
                 <button class="theme-toggle-btn" id="themeToggle" aria-label="切换主题">
                     <i data-lucide="moon" class="theme-icon-dark"></i>
                     <i data-lucide="sun" class="theme-icon-light hidden"></i>
-                </button>
-                <button class="menu-toggle-btn" id="menuToggle" aria-label="展开菜单" style="background: none; border: none; color: var(--text-secondary); cursor: pointer; width: 38px; height: 38px; border-radius: 50%; display: none; align-items: center; justify-content: center; transition: all 0.2s ease;">
-                    <i data-lucide="menu"></i>
                 </button>
             </div>
         </header>

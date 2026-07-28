@@ -737,7 +737,10 @@ def main():
 <body>
     <div class="app-layout">
         <header class="main-header">
-            <div class="logo-area">
+            <div class="logo-area" style="display: flex; align-items: center; gap: 8px;">
+                <button class="menu-toggle-btn" id="menuToggle" aria-label="展开目录" style="background: none; border: none; color: var(--text-primary); cursor: pointer; width: 36px; height: 36px; border-radius: 8px; display: none; align-items: center; justify-content: center;">
+                    <i data-lucide="menu"></i>
+                </button>
                 <span class="logo-icon"><i data-lucide="compass"></i></span>
                 <span class="logo-text"><a href="../index.html" style="color:inherit; text-decoration:none;">Study Hub / 33 Life Advice</a></span>
             </div>
