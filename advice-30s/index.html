@@ -9,20 +9,80 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .single-column-container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 40px 24px 100px 24px;
+        }
+        .header-nav-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .back-hub-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .back-hub-btn:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: var(--accent-indigo);
+            color: #ffffff;
+        }
+        .lang-switcher-bar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 4px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+        .lang-tab-btn {
+            padding: 6px 14px;
+            border-radius: 7px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .lang-tab-btn.active {
+            background: var(--accent-indigo);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+        }
+    </style>
 </head>
 <body>
     <div class="app-layout">
-        <header class="main-header">
-            <div class="logo-area" style="display: flex; align-items: center; gap: 8px;">
-                <button class="menu-toggle-btn" id="menuToggle" aria-label="展开目录" style="background: none; border: none; color: var(--text-primary); cursor: pointer; width: 36px; height: 36px; border-radius: 8px; display: none; align-items: center; justify-content: center;">
-                    <i data-lucide="menu"></i>
-                </button>
-                <span class="logo-icon"><i data-lucide="compass"></i></span>
-                <span class="logo-text"><a href="../index.html" style="color:inherit; text-decoration:none;">Study Hub / 33 Life Advice</a></span>
+        <header class="main-header" style="justify-content: space-between; padding: 0 24px;">
+            <div class="header-nav-left">
+                <a href="../index.html" class="back-hub-btn">
+                    <i data-lucide="arrow-left" style="width:16px;height:16px;"></i>
+                    <span>返回 Hub</span>
+                </a>
+                <span class="logo-text" style="font-weight:700; color:var(--text-primary);">46岁给30岁的33条忠告</span>
             </div>
-            <div class="progress-bar-container">
-                <div class="progress-bar" id="progressBar"></div>
+            
+            <div class="lang-switcher-bar">
+                <button class="lang-tab-btn" data-lang-mode="zh">中文译文</button>
+                <button class="lang-tab-btn" data-lang-mode="en">英文原文</button>
+                <button class="lang-tab-btn active" data-lang-mode="bilingual">双语对照</button>
             </div>
+
             <div class="header-actions">
                 <button class="theme-toggle-btn" id="themeToggle" aria-label="切换主题">
                     <i data-lucide="moon" class="theme-icon-dark"></i>
@@ -31,46 +91,8 @@
             </div>
         </header>
 
-        <div class="main-container">
-            <aside class="nav-sidebar">
-                <nav class="toc-nav">
-                    <div class="nav-title"><a href="../index.html" style="color:var(--accent-indigo); text-decoration:none; display:flex; align-items:center; gap:6px;"><i data-lucide="arrow-left" style="width:16px;height:16px;"></i> 返回主目录 Hub</a></div>
-                    <ul class="nav-list">
-                        <li class="nav-item">
-                            <a href="#overview" class="nav-link active">
-                                <span class="nav-num">00</span>
-                                <span class="nav-label">引言与概述 (Overview)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#original-en" class="nav-link">
-                                <span class="nav-num">01</span>
-                                <span class="nav-label">英文原文 (English)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#translation-zh" class="nav-link">
-                                <span class="nav-num">02</span>
-                                <span class="nav-label">中文译文 (Translation)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#bilingual-split" class="nav-link">
-                                <span class="nav-num">03</span>
-                                <span class="nav-label">双语对照 (Bilingual)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#analysis-workshop" class="nav-link">
-                                <span class="nav-num">04</span>
-                                <span class="nav-label">分析与实践工坊</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </aside>
-
-            <main class="content-panel">
+        <div class="single-column-container">
+            <main class="content-panel" style="margin-left: 0; padding: 0;">
                 <section class="doc-section active-section" id="overview">
                     <div class="badge">Part 00</div>
                     <h1 class="section-title serif-heading">46岁的给30多岁的33条人生忠告</h1>
@@ -196,20 +218,6 @@
 <div class="item-block" id="item-31"><div class="bilingual-para"><h2 class="subsection-title serif-heading">31. The Three Most Important Decisions</h2><h2 class="subsection-title">31. 三个最重要的决定</h2></div><div class="bilingual-para"><div class="inner-quote"><p class="b-en">"The three most important decisions: What you do, Who you do it with, Where you live."</p><p class="b-zh">“你将做出的三个最重要决定：你在做什么、你与谁合作/生活、你住在哪里。”</p></div></div><div class="bilingual-para"><p class="b-en">The three most important decisions you'll make:</p><p class="b-zh">你将做出的三个最重要决定：</p></div><div class="bilingual-para"><p class="b-en">1. What you do</p><p class="b-zh">1. 你到底在做什么（事业与使命）；</p></div><div class="bilingual-para"><p class="b-en">2. Who you do it with (who you partner with)</p><p class="b-zh">2. 与你合作/生活的人是谁（伴侣与圈子）；</p></div><div class="bilingual-para"><p class="b-en">3. Where you live</p><p class="b-zh">3. 你住在哪里（城市与环境）。</p></div><div class="bilingual-para"><p class="b-en">These are where you'll spend most of your time. Make them wisely.</p><p class="b-zh">这些地方是你大部分时间都会待的地方。请好好做决定吧。</p></div></div>
 <div class="item-block" id="item-32"><div class="bilingual-para"><h2 class="subsection-title serif-heading">32. The Formula for Success</h2><h2 class="subsection-title">32. 成功的通用公式</h2></div><div class="bilingual-para"><div class="inner-quote"><p class="b-en">"Step 1: Show up. Step 2: Do the work. Step 3: Look for ways to improve (Kaizen). Simple, but not easy."</p><p class="b-zh">“第一步：无论如何都要到位；第二步：认真完成任务；第三步：持续寻求改进（Kaizen）。”</p></div></div><div class="bilingual-para"><p class="b-en">Step 1: Show up. Show up when you're motivated or not, feeling it or not. This alone puts you ahead of 80% of people who only show up when they feel like it.</p><p class="b-zh">第一步：无论如何都要到位。无论你是否有动力，无论心情如何，都要去。只要做到这一点，你就已经比那些随性而为的人强多了（这类人占到了 80% 以上）。</p></div><div class="bilingual-para"><p class="b-en">Step 2: Do the work. Remove distractions. Put full attention on what you need to do.</p><p class="b-zh">第二步：认真完成任务。排除一切干扰因素，全神贯注于自己需要完成的任务上。</p></div><div class="bilingual-para"><p class="b-en">Step 3: Look for ways to improve. Adopt a mindset of Kaizen, meaning constant and never-ending improvement.</p><p class="b-zh">第三步：寻找改进的方法。秉持“持续改进（Kaizen）”的理念，即不断努力提升自己。</p></div><div class="bilingual-para"><p class="b-en">I've used this formula to get in shape, build businesses, and grow on social media. It's simple, but don't mistake simple for easy.</p><p class="b-zh">我运用这个方法来保持身材、打造事业。方法很简单，但千万别把简单误认为是容易。</p></div></div>
 <div class="item-block" id="item-33"><div class="bilingual-para"><h2 class="subsection-title serif-heading">33. You Underestimate What You Can Do in a Year</h2><h2 class="subsection-title">33. 你低估了自己在一年内能够做到的事情</h2></div><div class="bilingual-para"><div class="inner-quote"><p class="b-en">"People overestimate what they can do in 6 weeks but underestimate what they can do in a year. Adopt 'As long as it takes'."</p><p class="b-zh">“人们高估了自己在 6 周内能做的事，却低估了自己在一年内能完成的任务。坚持下去，无论需要多长时间。”</p></div></div><div class="bilingual-para"><p class="b-en">People overestimate what they can do in 6 weeks but underestimate what they can do in a year.</p><p class="b-zh">人们高估了自己在 6 周内能做的事情，却低估了自己在一年内能完成的任务。</p></div><div class="bilingual-para"><p class="b-en">Imagine all those things you quit because they got hard. If you'd stuck with them for a full year, you'd be way ahead.</p><p class="b-zh">想象一下那些因为太难而放弃的事情。如果你能坚持做下去一年，你一定会取得巨大的成就。</p></div><div class="bilingual-para"><p class="b-en">My biggest regrets come from not doing the thing when I should have.</p><p class="b-zh">我最大的遗憾，就是没有在应该行动的时候采取行动。</p></div><div class="bilingual-para"><p class="b-en">While everyone's chasing shortcuts—get rich quick, get fit quick—adopt a different mindset: I'll do it for as long as it takes.</p><p class="b-zh">当大家都在追求捷径——快速致富、快速减肥时，不妨采取另一种心态：我会坚持做下去，无论需要多长的时间。</p></div><div class="bilingual-para"><p class="b-en">Give yourself a full year, not 6 weeks. This is one of the best ways to avoid regret.</p><p class="b-zh">给自己一整年的时间，而不是 6 周。这是避免后悔的最佳方法之一。</p></div></div></div>
-                </section>
-
-                <section class="doc-section" id="analysis-workshop">
-                    <div class="badge">Part 04</div>
-                    <h1 class="section-title">个人行动复盘工坊</h1>
-                    <div class="content-text">
-                        <div class="worksheet-card">
-                            <div class="worksheet-header"><h3>写下你的行动承诺</h3></div>
-                            <div class="worksheet-body">
-                                <label class="input-label">写下你看完 33 条忠告后最想在 1 年内坚持的行动习惯：</label>
-                                <textarea id="inputAction" class="form-textarea" placeholder="例如：坚持举重力量训练；睡前4小时停餐；假设他人善意(API)；给目标一整年沉淀..."></textarea>
-                            </div>
-                        </div>
-                    </div>
                 </section>
             </main>
         </div>

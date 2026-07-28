@@ -722,37 +722,6 @@ def render_bilingual(item):
     return f'<div class="item-block" id="item-{item["id"]}"><div class="bilingual-para"><h2 class="subsection-title serif-heading">{item["title_en"]}</h2><h2 class="subsection-title">{item["title_zh"]}</h2></div><div class="bilingual-para"><div class="inner-quote"><p class="b-en">"{item["quote_en"]}"</p><p class="b-zh">“{item["quote_zh"]}”</p></div></div>{paras}</div>'
 
 def main():
-    toc_items = """                        <li class="nav-item">
-                            <a href="#overview" class="nav-link active">
-                                <span class="nav-num">00</span>
-                                <span class="nav-label">引言与概述 (Overview)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#original-en" class="nav-link">
-                                <span class="nav-num">01</span>
-                                <span class="nav-label">英文原文 (English)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#translation-zh" class="nav-link">
-                                <span class="nav-num">02</span>
-                                <span class="nav-label">中文译文 (Translation)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#bilingual-split" class="nav-link">
-                                <span class="nav-num">03</span>
-                                <span class="nav-label">双语对照 (Bilingual)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#analysis-workshop" class="nav-link">
-                                <span class="nav-num">04</span>
-                                <span class="nav-label">分析与实践工坊</span>
-                            </a>
-                        </li>"""
-
     html_template = """<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -764,20 +733,80 @@ def main():
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .single-column-container {{
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 40px 24px 100px 24px;
+        }}
+        .header-nav-left {{
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }}
+        .back-hub-btn {{
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }}
+        .back-hub-btn:hover {{
+            background: rgba(99, 102, 241, 0.2);
+            border-color: var(--accent-indigo);
+            color: #ffffff;
+        }}
+        .lang-switcher-bar {{
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 4px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }}
+        .lang-tab-btn {{
+            padding: 6px 14px;
+            border-radius: 7px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }}
+        .lang-tab-btn.active {{
+            background: var(--accent-indigo);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+        }}
+    </style>
 </head>
 <body>
     <div class="app-layout">
-        <header class="main-header">
-            <div class="logo-area" style="display: flex; align-items: center; gap: 8px;">
-                <button class="menu-toggle-btn" id="menuToggle" aria-label="展开目录" style="background: none; border: none; color: var(--text-primary); cursor: pointer; width: 36px; height: 36px; border-radius: 8px; display: none; align-items: center; justify-content: center;">
-                    <i data-lucide="menu"></i>
-                </button>
-                <span class="logo-icon"><i data-lucide="compass"></i></span>
-                <span class="logo-text"><a href="../index.html" style="color:inherit; text-decoration:none;">Study Hub / 33 Life Advice</a></span>
+        <header class="main-header" style="justify-content: space-between; padding: 0 24px;">
+            <div class="header-nav-left">
+                <a href="../index.html" class="back-hub-btn">
+                    <i data-lucide="arrow-left" style="width:16px;height:16px;"></i>
+                    <span>返回 Hub</span>
+                </a>
+                <span class="logo-text" style="font-weight:700; color:var(--text-primary);">46岁给30岁的33条忠告</span>
             </div>
-            <div class="progress-bar-container">
-                <div class="progress-bar" id="progressBar"></div>
+            
+            <div class="lang-switcher-bar">
+                <button class="lang-tab-btn" data-lang-mode="zh">中文译文</button>
+                <button class="lang-tab-btn" data-lang-mode="en">英文原文</button>
+                <button class="lang-tab-btn active" data-lang-mode="bilingual">双语对照</button>
             </div>
+
             <div class="header-actions">
                 <button class="theme-toggle-btn" id="themeToggle" aria-label="切换主题">
                     <i data-lucide="moon" class="theme-icon-dark"></i>
@@ -786,17 +815,8 @@ def main():
             </div>
         </header>
 
-        <div class="main-container">
-            <aside class="nav-sidebar">
-                <nav class="toc-nav">
-                    <div class="nav-title"><a href="../index.html" style="color:var(--accent-indigo); text-decoration:none; display:flex; align-items:center; gap:6px;"><i data-lucide="arrow-left" style="width:16px;height:16px;"></i> 返回主目录 Hub</a></div>
-                    <ul class="nav-list">
-{toc_items}
-                    </ul>
-                </nav>
-            </aside>
-
-            <main class="content-panel">
+        <div class="single-column-container">
+            <main class="content-panel" style="margin-left: 0; padding: 0;">
                 <section class="doc-section active-section" id="overview">
                     <div class="badge">Part 00</div>
                     <h1 class="section-title serif-heading">46岁的给30多岁的33条人生忠告</h1>
@@ -827,20 +847,6 @@ def main():
                     <h1 class="section-title">中英双语对照阅读</h1>
                     <div class="content-text bilingual-text-area">{bi_html}</div>
                 </section>
-
-                <section class="doc-section" id="analysis-workshop">
-                    <div class="badge">Part 04</div>
-                    <h1 class="section-title">个人行动复盘工坊</h1>
-                    <div class="content-text">
-                        <div class="worksheet-card">
-                            <div class="worksheet-header"><h3>写下你的行动承诺</h3></div>
-                            <div class="worksheet-body">
-                                <label class="input-label">写下你看完 33 条忠告后最想在 1 年内坚持的行动习惯：</label>
-                                <textarea id="inputAction" class="form-textarea" placeholder="例如：坚持举重力量训练；睡前4小时停餐；假设他人善意(API)；给目标一整年沉淀..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </section>
             </main>
         </div>
     </div>
@@ -852,12 +858,11 @@ def main():
     zh_html = "\n".join([render_chinese(item) for item in ARTICLES])
     bi_html = "\n".join([render_bilingual(item) for item in ARTICLES])
 
-    full_html = html_template.format(toc_items=toc_items, en_html=en_html, zh_html=zh_html, bi_html=bi_html)
+    full_html = html_template.format(en_html=en_html, zh_html=zh_html, bi_html=bi_html)
     
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(full_html)
-    print("[√] advice-30s index.html compiled successfully with 33 TOC items.")
+    print("[√] advice-30s index.html compiled cleanly in single column without catalog.")
 
 if __name__ == "__main__":
     main()
-
